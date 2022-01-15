@@ -7,7 +7,8 @@
  */
 
 import React from 'react';
-import type {Node} from 'react';
+import PropTypes from 'prop-types';
+
 import {
   SafeAreaView,
   ScrollView,
@@ -25,8 +26,9 @@ import {
   LearnMoreLinks,
   ReloadInstructions,
 } from 'react-native/Libraries/NewAppScreen';
+import TextRandomNumber from './randomNumberText';
 
-const Section = ({children, title}): Node => {
+const Section = ({children, title}) => {
   const isDarkMode = useColorScheme() === 'dark';
   return (
     <View style={styles.sectionContainer}>
@@ -52,7 +54,7 @@ const Section = ({children, title}): Node => {
   );
 };
 
-const Game: () => Node = () => {
+const Game = props => {
   const isDarkMode = useColorScheme() === 'dark';
 
   const backgroundStyle = {
@@ -60,6 +62,7 @@ const Game: () => Node = () => {
   };
 
   target = 10 + Math.floor(40 * Math.random());
+  // randomNumbers = Array.from({length: this.props.randomNumberCount});
 
   return (
     <SafeAreaView style={backgroundStyle}>
@@ -68,7 +71,9 @@ const Game: () => Node = () => {
           backgroundColor: isDarkMode ? Colors.black : Colors.white,
         }}>
         {/* <Text>Hello from Game component</Text> */}
-        <Text style={styles.target}>{this.target}</Text>
+        <Text style={styles.target}>{target}</Text>
+        {/* <TextRandomNumber style={styles.target} randomNumber={202} /> */}
+        <Text style={styles.target}>{props.randomNumberCount}</Text>
       </View>
     </SafeAreaView>
   );
@@ -101,3 +106,11 @@ const styles = StyleSheet.create({
 });
 
 export default Game;
+
+// Game.defaultProps = {
+//   randomNumberCount: '6',
+// };
+
+// Game.propTypes = {
+//   randomNumberCount: PropTypes.string.isRequired,
+// };
