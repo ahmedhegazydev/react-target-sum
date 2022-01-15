@@ -25,7 +25,6 @@ import {
   LearnMoreLinks,
   ReloadInstructions,
 } from 'react-native/Libraries/NewAppScreen';
-import Game from './src/components/Game';
 
 const Section = ({children, title}): Node => {
   const isDarkMode = useColorScheme() === 'dark';
@@ -53,7 +52,7 @@ const Section = ({children, title}): Node => {
   );
 };
 
-const App: () => Node = () => {
+const Game: () => Node = () => {
   const isDarkMode = useColorScheme() === 'dark';
 
   const backgroundStyle = {
@@ -66,7 +65,7 @@ const App: () => Node = () => {
         style={{
           backgroundColor: isDarkMode ? Colors.black : Colors.white,
         }}>
-        <Game />
+        <Text>Hello from Game component</Text>
       </View>
     </SafeAreaView>
   );
@@ -91,4 +90,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default App;
+export default Game;
