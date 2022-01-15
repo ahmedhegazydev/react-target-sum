@@ -61,8 +61,14 @@ const Game = props => {
     backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
   };
 
-  target = 10 + Math.floor(40 * Math.random());
-  // randomNumbers = Array.from({length: this.props.randomNumberCount});
+  randomNumbers = Array.from({length: props.randomNumberCount}).map(
+    () => 1 + Math.floor(10 * Math.random()),
+  );
+
+  // target = 10 + Math.floor(40 * Math.random());
+  target = randomNumbers
+    .slice(0, props.randomNumberCount - 2)
+    .reduce((acc, curr) => acc + curr, 0);
 
   return (
     <SafeAreaView style={backgroundStyle}>
@@ -73,7 +79,14 @@ const Game = props => {
         {/* <Text>Hello from Game component</Text> */}
         <Text style={styles.target}>{target}</Text>
         {/* <TextRandomNumber style={styles.target} randomNumber={202} /> */}
-        <Text style={styles.target}>{props.randomNumberCount}</Text>
+        {/* <Text style={styles.target}>{props.randomNumberCount}</Text> */}
+        <View style={styles.randomContainer}>
+          {this.randomNumbers.map((randomNumber, index) => (
+            <Text style={styles.randomText} key={index}>
+              {randomNumber}
+            </Text>
+          ))}
+        </View>
       </View>
     </SafeAreaView>
   );
@@ -102,6 +115,21 @@ const styles = StyleSheet.create({
   },
   highlight: {
     fontWeight: '700',
+  },
+
+  randomContainer: {
+    flex: 1,
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    justifyContent: 'space-around',
+  },
+  randomText: {
+    fontSize: 35,
+    width: 130,
+    backgroundColor: '#aaa',
+    margin: 20,
+    padding: 20,
+    textAlign: 'center',
   },
 });
 
