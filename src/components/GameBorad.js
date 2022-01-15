@@ -27,6 +27,7 @@ import {
   ReloadInstructions,
 } from 'react-native/Libraries/NewAppScreen';
 import TextRandomNumber from './randomNumberText';
+import RandomNumber from './RandomNumber';
 
 const Section = ({children, title}) => {
   const isDarkMode = useColorScheme() === 'dark';
@@ -82,9 +83,10 @@ const Game = props => {
         {/* <Text style={styles.target}>{props.randomNumberCount}</Text> */}
         <View style={styles.randomContainer}>
           {this.randomNumbers.map((randomNumber, index) => (
-            <Text style={styles.randomText} key={index}>
-              {randomNumber}
-            </Text>
+            <RandomNumber number={randomNumber} />
+            // <Text style={styles.randomText} key={index}>
+            //   {randomNumber}
+            // </Text>
           ))}
         </View>
       </View>
@@ -122,14 +124,6 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     flexWrap: 'wrap',
     justifyContent: 'space-around',
-  },
-  randomText: {
-    fontSize: 35,
-    width: 130,
-    backgroundColor: '#aaa',
-    margin: 20,
-    padding: 20,
-    textAlign: 'center',
   },
 });
 
