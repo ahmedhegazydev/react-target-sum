@@ -59,19 +59,29 @@ const Game: () => Node = () => {
     backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
   };
 
+  target = 10 + Math.floor(40 * Math.random());
+
   return (
     <SafeAreaView style={backgroundStyle}>
       <View
         style={{
           backgroundColor: isDarkMode ? Colors.black : Colors.white,
         }}>
-        <Text>Hello from Game component</Text>
+        {/* <Text>Hello from Game component</Text> */}
+        <Text style={styles.target}>{this.target}</Text>
       </View>
     </SafeAreaView>
   );
 };
 
 const styles = StyleSheet.create({
+  target: {
+    backgroundColor: '#aaa',
+    fontSize: 40,
+    textAlign: 'center',
+    margin: 30,
+    padding: 20,
+  },
   sectionContainer: {
     marginTop: 32,
     paddingHorizontal: 24,
