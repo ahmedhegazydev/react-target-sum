@@ -6,12 +6,31 @@ import {
   StatusBar,
   StyleSheet,
   Text,
+  TouchableHighlight,
+  TouchableOpacity,
   useColorScheme,
   View,
 } from 'react-native';
 
 const RandomNumber = props => {
-  return <Text style={styles.randomText}>{props.number}</Text>;
+  const handlePress = () => {
+    // console.log('clicking', props.id);
+    props.onPress(props.id);
+  };
+
+  return (
+    <TouchableOpacity
+      style={{
+        // backgroundColor: '#aaa'
+        paddingBottom: 30,
+      }}
+      onPress={handlePress}>
+      {/* <Text style={[styles.randomText, styles.selected]}>{props.number}</Text> */}
+      <Text style={[styles.randomText, props.isDisabled && styles.disabled]}>
+        {props.number}
+      </Text>
+    </TouchableOpacity>
+  );
 };
 
 const styles = StyleSheet.create({
@@ -22,6 +41,9 @@ const styles = StyleSheet.create({
     margin: 20,
     padding: 20,
     textAlign: 'center',
+  },
+  disabled: {
+    opacity: 0.3,
   },
 });
 

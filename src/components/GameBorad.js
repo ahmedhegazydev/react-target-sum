@@ -6,7 +6,7 @@
  * @flow strict-local
  */
 
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import PropTypes from 'prop-types';
 
 import {
@@ -66,10 +66,39 @@ const Game = props => {
     () => 1 + Math.floor(10 * Math.random()),
   );
 
+  // state = {
+  // selectedNumbers: [0, 4];
+  // };
+
   // target = 10 + Math.floor(40 * Math.random());
   target = randomNumbers
     .slice(0, props.randomNumberCount - 2)
     .reduce((acc, curr) => acc + curr, 0);
+
+  isNumberSelected = numberIndex => {
+    return selectedNumbers.indexOf(numberIndex) >= 0;
+  };
+
+  const initialValue = [];
+
+  const [selectedNumbers, setSelectedNumbers] = useState(initialValue);
+
+  // ****** BEGINNING OF CHANGE ******
+  // useEffect(() => {
+  //   // Should not ever set state during rendering, so do this in useEffect instead.
+  //   setSelectedNumbers(allowedState);
+  // }, []);
+  // ****** END OF CHANGE ******
+
+  selectNumber = numberIndex => {
+    // setState(prevState => {
+    //   this.selectedNumbers = [...prevState.selectedNumbers, numberIndex];
+    //   console.log(selectedNumbers);
+    // });
+    selectedNumbers.push(numberIndex);
+    setSelectedNumbers(selectedNumbers);
+    console.log(selectedNumbers);
+  };
 
   return (
     <SafeAreaView style={backgroundStyle}>
@@ -83,7 +112,13 @@ const Game = props => {
         {/* <Text style={styles.target}>{props.randomNumberCount}</Text> */}
         <View style={styles.randomContainer}>
           {this.randomNumbers.map((randomNumber, index) => (
-            <RandomNumber number={randomNumber} />
+            <RandomNumber
+              key={index}
+              id={index}
+              isDisabled={this.isNumberSelected(index)}
+              number={randomNumber}
+              onPress={this.selectNumber}
+            />
             // <Text style={styles.randomText} key={index}>
             //   {randomNumber}
             // </Text>
