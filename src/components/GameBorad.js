@@ -116,10 +116,10 @@ const Game = props => {
     }
 
     if (sumCollected == this.target) {
-      return 'WON      ';
+      return 'WON';
     }
     if (sumCollected > this.target) {
-      return 'LOST        ';
+      return 'LOST ';
     }
     // return 'WON';
     // return 'LOST';
@@ -153,7 +153,7 @@ const Game = props => {
             // </Text>
           ))}
 
-          <Text style={{}}>{gameStatus()}</Text>
+          <Text style={styles.sectionTitle}>{gameStatus()}</Text>
         </View>
       </View>
     </>
@@ -175,6 +175,10 @@ const styles = StyleSheet.create({
   sectionTitle: {
     fontSize: 24,
     fontWeight: '600',
+    width: 200,
+    alignItems: 'center',
+    justifyContent: 'center',
+    textAlign: 'center',
   },
   sectionDescription: {
     marginTop: 8,
