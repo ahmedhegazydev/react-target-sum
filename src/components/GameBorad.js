@@ -75,10 +75,6 @@ const Game = props => {
     .slice(0, props.randomNumberCount - 2)
     .reduce((acc, curr) => acc + curr, 0);
 
-  isNumberSelected = numberIndex => {
-    return selectedNumbers.indexOf(numberIndex) >= 0;
-  };
-
   const initialValue = [];
 
   const [selectedNumbers, setSelectedNumbers] = useState(initialValue);
@@ -90,6 +86,10 @@ const Game = props => {
   // }, []);
   // ****** END OF CHANGE ******
 
+  isNumberSelected = numberIndex => {
+    return selectedNumbers.includes(numberIndex);
+  };
+
   selectNumber = numberIndex => {
     // setState(prevState => {
     //   this.selectedNumbers = [...prevState.selectedNumbers, numberIndex];
@@ -100,8 +100,28 @@ const Game = props => {
     console.log(selectedNumbers);
   };
 
+  gameStatus = () => {
+    const sumCollected = selectedNumbers.reduce(
+      (acc, curr) => acc + randomNumbers[curr],
+      0,
+    );
+    // console.log(sumCollected);
+    console.warn(sumCollected);
+
+    if (sumCollected < this.target) {
+      return 'PLAYING';
+    }
+
+    if (sumCollected == this.target) {
+      return 'WON';
+    }
+    if (sumCollected > this.target) {
+      return 'LOST';
+    }
+  };
+
   return (
-    <SafeAreaView style={backgroundStyle}>
+    <>
       <View
         style={{
           backgroundColor: isDarkMode ? Colors.black : Colors.white,
@@ -123,9 +143,10 @@ const Game = props => {
             //   {randomNumber}
             // </Text>
           ))}
+          <Text>{gameStatus()}</Text>
         </View>
       </View>
-    </SafeAreaView>
+    </>
   );
 };
 
@@ -159,6 +180,18 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     flexWrap: 'wrap',
     justifyContent: 'space-around',
+  },
+
+  STATUS_PLAYING: {
+    backgroundColor: '#bbb',
+  },
+
+  STATUS_WON: {
+    backgroundColor: 'green',
+  },
+
+  STATUS_LOST: {
+    backgroundColor: 'red',
   },
 });
 

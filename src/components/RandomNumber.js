@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 
 import {
   SafeAreaView,
@@ -15,8 +15,14 @@ import {
 const RandomNumber = props => {
   const handlePress = () => {
     // console.log('clicking', props.id);
+    if (props.isDisabled) {
+      return;
+    }
     props.onPress(props.id);
+    // setSelected(true);
   };
+
+  const [selected, setSelected] = useState(true);
 
   return (
     <TouchableOpacity
