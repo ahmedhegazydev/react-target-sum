@@ -58,6 +58,12 @@ const Section = ({children, title}) => {
 const Game = props => {
   const isDarkMode = useColorScheme() === 'dark';
 
+  const initValBgTitleColor = 'rgb(128,128,128)';
+  const [titleBgColor, setTitleBgColor] = useState(initValBgTitleColor);
+
+  const initValTitleStatus = 'PLAYING';
+  const [statusTitle, setStatusTitle] = useState(initValTitleStatus);
+
   const backgroundStyle = {
     backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
   };
@@ -112,13 +118,19 @@ const Game = props => {
     // console.warn(sumCollected);
 
     if (sumCollected < this.target) {
+      // setTitleBgColor(initValBgTitleColor);
+      // setStatusTitle("PLAYING");
       return 'PLAYING';
     }
 
     if (sumCollected == this.target) {
+      setTitleBgColor('green');
+      setStatusTitle('WON');
       return 'WON';
     }
     if (sumCollected > this.target) {
+      setTitleBgColor('red');
+      setStatusTitle('LOST');
       return 'LOST ';
     }
     // return 'WON';
@@ -132,11 +144,14 @@ const Game = props => {
         style={{
           backgroundColor: isDarkMode ? Colors.black : Colors.white,
         }}>
-        {/* <Text>Hello from Game component</Text> */}
-        <Text
+        {/* <Text
           style={[styles.target, styles[`STATUS_${this.gameStatus()}`.trim()]]}>
           {target}
+        </Text> */}
+        <Text style={[styles.target, {backgroundColor: titleBgColor}]}>
+          {target}
         </Text>
+
         {/* <TextRandomNumber style={styles.target} randomNumber={202} /> */}
         {/* <Text style={styles.target}>{props.randomNumberCount}</Text> */}
         <View style={styles.randomContainer}>
@@ -153,7 +168,8 @@ const Game = props => {
             // </Text>
           ))}
 
-          <Text style={styles.sectionTitle}>{gameStatus()}</Text>
+          {/* <Text style={styles.sectionTitle}>{gameStatus()}</Text> */}
+          <Text style={styles.sectionTitle}>{statusTitle}</Text>
         </View>
       </View>
     </>
