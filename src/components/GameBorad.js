@@ -98,6 +98,9 @@ const Game = props => {
     selectedNumbers.push(numberIndex);
     setSelectedNumbers(selectedNumbers);
     console.log(selectedNumbers);
+
+    // console.log(gameStatus());
+    gameStatus();
   };
 
   gameStatus = () => {
@@ -105,19 +108,22 @@ const Game = props => {
       (acc, curr) => acc + randomNumbers[curr],
       0,
     );
-    // console.log(sumCollected);
-    console.warn(sumCollected);
+    console.log(sumCollected);
+    // console.warn(sumCollected);
 
     if (sumCollected < this.target) {
       return 'PLAYING';
     }
 
     if (sumCollected == this.target) {
-      return 'WON';
+      return 'WON      ';
     }
     if (sumCollected > this.target) {
-      return 'LOST';
+      return 'LOST        ';
     }
+    // return 'WON';
+    // return 'LOST';
+    // return 'PLAYING';
   };
 
   return (
@@ -127,7 +133,10 @@ const Game = props => {
           backgroundColor: isDarkMode ? Colors.black : Colors.white,
         }}>
         {/* <Text>Hello from Game component</Text> */}
-        <Text style={styles.target}>{target}</Text>
+        <Text
+          style={[styles.target, styles[`STATUS_${this.gameStatus()}`.trim()]]}>
+          {target}
+        </Text>
         {/* <TextRandomNumber style={styles.target} randomNumber={202} /> */}
         {/* <Text style={styles.target}>{props.randomNumberCount}</Text> */}
         <View style={styles.randomContainer}>
@@ -143,7 +152,8 @@ const Game = props => {
             //   {randomNumber}
             // </Text>
           ))}
-          <Text>{gameStatus()}</Text>
+
+          <Text style={{}}>{gameStatus()}</Text>
         </View>
       </View>
     </>
