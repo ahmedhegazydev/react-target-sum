@@ -159,7 +159,9 @@ const Game = props => {
             <RandomNumber
               key={index}
               id={index}
-              isDisabled={this.isNumberSelected(index)}
+              isDisabled={
+                this.isNumberSelected(index) || statusTitle !== 'PLAYING'
+              }
               number={randomNumber}
               onPress={this.selectNumber}
             />

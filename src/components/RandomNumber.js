@@ -19,10 +19,10 @@ const RandomNumber = props => {
       return;
     }
     props.onPress(props.id);
-    // setSelected(true);
+    setSelected(true);
   };
 
-  const [selected, setSelected] = useState(true);
+  const [selected, setSelected] = useState(false);
 
   return (
     <TouchableOpacity
@@ -32,7 +32,7 @@ const RandomNumber = props => {
       }}
       onPress={handlePress}>
       {/* <Text style={[styles.randomText, styles.selected]}>{props.number}</Text> */}
-      <Text style={[styles.randomText, props.isDisabled && styles.disabled]}>
+      <Text style={[styles.randomText, selected && styles.disabled]}>
         {props.number}
       </Text>
     </TouchableOpacity>
