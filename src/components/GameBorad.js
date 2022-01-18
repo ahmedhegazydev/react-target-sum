@@ -8,6 +8,8 @@
 
 import React, {useEffect, useState} from 'react';
 import PropTypes from 'prop-types';
+import Countdown from 'react-countdown';
+import arrayShuffle from 'array-shuffle';
 
 import {
   SafeAreaView,
@@ -71,6 +73,7 @@ const Game = props => {
   randomNumbers = Array.from({length: props.randomNumberCount}).map(
     () => 1 + Math.floor(10 * Math.random()),
   );
+  const shuffledRandomNumbers = arrayShuffle(randomNumbers);
 
   // state = {
   // selectedNumbers: [0, 4];
@@ -84,13 +87,6 @@ const Game = props => {
   const initialValue = [];
 
   const [selectedNumbers, setSelectedNumbers] = useState(initialValue);
-
-  // ****** BEGINNING OF CHANGE ******
-  // useEffect(() => {
-  //   // Should not ever set state during rendering, so do this in useEffect instead.
-  //   setSelectedNumbers(allowedState);
-  // }, []);
-  // ****** END OF CHANGE ******
 
   isNumberSelected = numberIndex => {
     return selectedNumbers.includes(numberIndex);
@@ -111,7 +107,7 @@ const Game = props => {
 
   gameStatus = () => {
     const sumCollected = selectedNumbers.reduce(
-      (acc, curr) => acc + randomNumbers[curr],
+      (acc, curr) => acc + shuffledRandomNumbers[curr],
       0,
     );
     console.log(sumCollected);
@@ -126,6 +122,7 @@ const Game = props => {
     if (sumCollected == this.target) {
       setTitleBgColor('green');
       setStatusTitle('WON');
+      clearTimeout(timer);
       return 'WON';
     }
     if (sumCollected > this.target) {
@@ -138,43 +135,104 @@ const Game = props => {
     // return 'PLAYING';
   };
 
+  const [timerCount, setTimer] = useState(5);
+  const [timeLeft, setTimeLeft] = useState(5);
+
+  // useEffect(() => {
+  //   let interval = setInterval(() => {
+  //     setTimer(lastTimerCount => {
+  //       lastTimerCount <= 1 && clearInterval(interval);
+  //       if (lastTimerCount <= 1) {
+  //         setTitleBgColor('red');
+  //         setStatusTitle('LOST');
+  //       }
+  //       return lastTimerCount - 1;
+  //     });
+  //     // console.log('Hello world ');
+  //   }, 1000); //each count lasts for a second
+  //   //cleanup the interval on complete
+  //   return () => clearInterval(interval);
+  // }, []);
+
+  const Completionist = () => <span>You are good to go!</span>;
+  // Renderer callback with condition
+  const renderer = ({hours, minutes, seconds, completed}) => {
+    if (completed) {
+      // Render a completed state
+      return <Completionist />;
+    } else {
+      // Render a countdown
+      return (
+        <span>
+          {hours}:{minutes}:{seconds}
+        </span>
+      );
+    }
+  };
+
+  let timer = () => {};
+
+  const startTimer = () => {
+    timer = setTimeout(() => {
+      if (timeLeft <= 0) {
+        clearTimeout(timer);
+        return false;
+      }
+      setTimeLeft(timeLeft - 1);
+    }, 1000);
+  };
+
+  useEffect(() => {
+    startTimer();
+    return () => clearTimeout(timer);
+  });
+
+  const start = () => {
+    setTimeLeft(30);
+    clearTimeout(timer);
+    startTimer();
+  };
+
   return (
-    <>
-      <View
-        style={{
-          backgroundColor: isDarkMode ? Colors.black : Colors.white,
-        }}>
-        {/* <Text
+    <View
+      style={{
+        backgroundColor: isDarkMode ? Colors.black : Colors.white,
+      }}>
+      {/* <Text
           style={[styles.target, styles[`STATUS_${this.gameStatus()}`.trim()]]}>
           {target}
         </Text> */}
-        <Text style={[styles.target, {backgroundColor: titleBgColor}]}>
-          {target}
-        </Text>
+      <Text style={[styles.target, {backgroundColor: titleBgColor}]}>
+        {target}
+      </Text>
 
-        {/* <TextRandomNumber style={styles.target} randomNumber={202} /> */}
-        {/* <Text style={styles.target}>{props.randomNumberCount}</Text> */}
-        <View style={styles.randomContainer}>
-          {this.randomNumbers.map((randomNumber, index) => (
-            <RandomNumber
-              key={index}
-              id={index}
-              isDisabled={
-                this.isNumberSelected(index) || statusTitle !== 'PLAYING'
-              }
-              number={randomNumber}
-              onPress={this.selectNumber}
-            />
-            // <Text style={styles.randomText} key={index}>
-            //   {randomNumber}
-            // </Text>
-          ))}
+      {/* <TextRandomNumber style={styles.target} randomNumber={202} /> */}
+      {/* <Text style={styles.target}>{props.randomNumberCount}</Text> */}
+      <View style={styles.randomContainer}>
+        {shuffledRandomNumbers.map((randomNumber, index) => (
+          <RandomNumber
+            key={index}
+            id={index}
+            isDisabled={
+              this.isNumberSelected(index) || statusTitle !== 'PLAYING'
+            }
+            number={randomNumber}
+            onPress={this.selectNumber}
+          />
+          // <Text style={styles.randomText} key={index}>
+          //   {randomNumber}
+          // </Text>
+        ))}
 
-          {/* <Text style={styles.sectionTitle}>{gameStatus()}</Text> */}
-          <Text style={styles.sectionTitle}>{statusTitle}</Text>
-        </View>
+        {/* <Text style={styles.sectionTitle}>{gameStatus()}</Text> */}
+        <Text style={styles.sectionTitle}>{statusTitle}</Text>
+
+        {/* for using useEffect and setInterval */}
+        <Text style={styles.sectionTitle}>{timerCount}</Text>
+
+        {/* <Countdown date={Date.now() + 5000} renderer={renderer} /> */}
       </View>
-    </>
+    </View>
   );
 };
 
@@ -197,14 +255,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     textAlign: 'center',
-  },
-  sectionDescription: {
-    marginTop: 8,
-    fontSize: 18,
-    fontWeight: '400',
-  },
-  highlight: {
-    fontWeight: '700',
   },
 
   randomContainer: {
