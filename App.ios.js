@@ -6,7 +6,7 @@
  * @flow strict-local
  */
 
-import React from 'react';
+import React, {useState} from 'react';
 
 import {
   SafeAreaView,
@@ -60,13 +60,26 @@ const App = () => {
     backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
   };
 
+  const [gameId, setGameId] = useState(1);
+
+  resetGame = () => {
+    setGameId(gameId + 1);
+    console.log('resetGame');
+    return gameId + 1;
+  };
+
   return (
     <SafeAreaView style={backgroundStyle}>
       <View
         style={{
           backgroundColor: isDarkMode ? Colors.black : Colors.white,
         }}>
-        <Game initialSeconds={5} randomNumberCount={6} />
+        <Game
+          key={gameId}
+          onPlayAgain={this.resetGame}
+          initialSeconds={5}
+          randomNumberCount={6}
+        />
       </View>
     </SafeAreaView>
   );

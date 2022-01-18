@@ -233,16 +233,18 @@ const Game = props => {
         <Text style={styles.sectionTitle}>{timeLeft}</Text>
         {/* <Countdown date={Date.now() + 5000} renderer={renderer} /> */}
 
-        <Pressable
-          style={({pressed}) => [
-            {
-              backgroundColor: pressed ? 'red' : 'blue',
-            },
-            styles.button,
-          ]}
-          onPress={() => Alert.alert('Button Pressed!')}>
-          <Text style={styles.buttonText}>Play a gain</Text>
-        </Pressable>
+        {statusTitle !== 'PLAYING' && (
+          <Pressable
+            style={({pressed}) => [
+              {
+                backgroundColor: pressed ? 'red' : 'blue',
+              },
+              styles.button,
+            ]}
+            onPress={props.onPlayAgain}>
+            <Text style={styles.buttonText}>Play a gain</Text>
+          </Pressable>
+        )}
       </View>
     </View>
   );
