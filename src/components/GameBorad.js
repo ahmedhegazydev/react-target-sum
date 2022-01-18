@@ -16,9 +16,12 @@ import {
   ScrollView,
   StatusBar,
   StyleSheet,
+  Alert,
   Text,
   useColorScheme,
   View,
+  Button,
+  Pressable,
 } from 'react-native';
 
 import {
@@ -223,21 +226,43 @@ const Game = props => {
           //   {randomNumber}
           // </Text>
         ))}
-
         {/* <Text style={styles.sectionTitle}>{gameStatus()}</Text> */}
         <Text style={styles.sectionTitle}>{statusTitle}</Text>
-
         {/* for using useEffect and setInterval */}
         {/* <Text style={styles.sectionTitle}>{timerCount}</Text> */}
         <Text style={styles.sectionTitle}>{timeLeft}</Text>
-
         {/* <Countdown date={Date.now() + 5000} renderer={renderer} /> */}
+
+        <Pressable
+          style={({pressed}) => [
+            {
+              backgroundColor: pressed ? 'red' : 'blue',
+            },
+            styles.button,
+          ]}
+          onPress={() => Alert.alert('Button Pressed!')}>
+          <Text style={styles.buttonText}>Play a gain</Text>
+        </Pressable>
       </View>
     </View>
   );
 };
 
 const styles = StyleSheet.create({
+  button: {
+    borderRadius: 8,
+    padding: 6,
+    height: 50,
+    width: '70%',
+    justifyContent: 'center',
+    alignItems: 'center',
+    elevation: 5,
+    margin: 20,
+  },
+  buttonText: {
+    fontSize: 20,
+    color: 'white',
+  },
   target: {
     backgroundColor: '#aaa',
     fontSize: 40,
