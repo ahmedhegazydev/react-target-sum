@@ -135,8 +135,8 @@ const Game = props => {
     // return 'PLAYING';
   };
 
-  const [timerCount, setTimer] = useState(5);
-  const [timeLeft, setTimeLeft] = useState(5);
+  const [timerCount, setTimer] = useState(props.initialSeconds);
+  const [timeLeft, setTimeLeft] = useState(props.initialSeconds);
 
   // useEffect(() => {
   //   let interval = setInterval(() => {
@@ -228,7 +228,8 @@ const Game = props => {
         <Text style={styles.sectionTitle}>{statusTitle}</Text>
 
         {/* for using useEffect and setInterval */}
-        <Text style={styles.sectionTitle}>{timerCount}</Text>
+        {/* <Text style={styles.sectionTitle}>{timerCount}</Text> */}
+        <Text style={styles.sectionTitle}>{timeLeft}</Text>
 
         {/* <Countdown date={Date.now() + 5000} renderer={renderer} /> */}
       </View>

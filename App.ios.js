@@ -66,7 +66,7 @@ const App = () => {
         style={{
           backgroundColor: isDarkMode ? Colors.black : Colors.white,
         }}>
-        <Game randomNumberCount={6} />
+        <Game initialSeconds={5} randomNumberCount={6} />
       </View>
     </SafeAreaView>
   );
